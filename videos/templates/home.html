@@ -1,0 +1,31 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Upload Videos</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="../static/css/main.css">
+</head>
+<body>
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-6 filebox">
+                <div class="">
+                     <video width='400' controls>
+                    <source src='{{ MEDIA_URL }}{{ videofile }}' type='video/mp4'>
+                    Your browser does not support the video tag.
+                    </video>
+                </div>
+                    <form enctype="multipart/form-data" method="POST" action="">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Upload"/>
+                    </form>
+                    </p>
+            </div>
+            <div class="col-md-6 filebox">
+                {% comment %} <div class="filebox"></div> {% endcomment %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
