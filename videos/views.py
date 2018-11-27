@@ -1,20 +1,24 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Video
-from .forms import VideoForm
+from .forms import UploadFileForm
+from django.http import HttpResponseRedirect
+
+def handle_uploaded_file(f):
+    with open('media/uploads/video.mp4', 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
 
 def showvideo(request):
-
-    # lastvideo= Video.objects.last()
-
-    # videofile= lastvideo.videofile
-
-
-    form= VideoForm(request.POST or None, request.FILES or None)
-    if form.is_valid():
-        form.save()
-
-    
-    context= {'form': form}
-    
-      
-    return render(request, 'home.html', context)
+   if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_uploaded_file(request.FILES['file'])
+            return HttpResponse("success")
+        else:
+            form = UploadFileForm()
+        
+        return render(request, 'home.html', {'form': form})    
+   else:
+        form = UploadFileForm(request.POST, request.FILES)
+        return render(request, 'home.html', {'form': form})    
