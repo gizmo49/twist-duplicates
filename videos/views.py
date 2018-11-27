@@ -4,8 +4,8 @@ from .models import Video
 from .forms import UploadFileForm
 from django.http import HttpResponseRedirect
 
-def handle_uploaded_file(f):
-    with open('media/uploads/video.mp4', 'wb+') as destination:
+def handle_uploaded_file(f, filename):
+    with open('media/uploads/' + filename, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
 
@@ -13,7 +13,7 @@ def showvideo(request):
    if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            handle_uploaded_file(request.FILES['file'])
+            handle_uploaded_file(request.FILES['file'], str(request.FILES['file']))
             return HttpResponse("success")
         else:
             form = UploadFileForm()
