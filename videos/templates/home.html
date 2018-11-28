@@ -11,20 +11,22 @@
             <div class="col-md-6 filebox">
                 <div class="">
                      <video width='400' controls>
-                    <source src='{{ MEDIA_URL }}{{ videofile }}' type='video/mp4'>
-                    Your browser does not support the video tag.
+                      <source src=" {{ path_res }}" type='video/mp4'>
                     </video>
                 </div>
                     <form enctype="multipart/form-data" method="POST" action="">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    {{ path_res }}
                     <input type="submit" value="Upload"/>
                     </form>
-                    </p>
+                    <form method="POST" action="{% url 'comparevids' %}">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ path_res }}" />
+                    <button class="btn btn-default pull-right">Check Duplicates</button>
+                    </form>
+
             </div>
             <div class="col-md-6 filebox">
-                {% comment %} <div class="filebox"></div> {% endcomment %}
             </div>
         </div>
     </div>
